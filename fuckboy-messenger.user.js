@@ -11,7 +11,7 @@
 // also see: https://greasyfork.org/en/scripts/36066-whatsapp-web-spammer/code
 
 // ======================================== DATA ========================================
-let data = [
+let messages = [
     "Yeah that really sucks... or doesn't - don't know. Anyway do you know anyone that's down for a threesome?",
     "Can I just be honest with you for a second? This whole conversation is just a joke, right? I'm not even sure if I'm actually interested in you",
     "I know exactly how to treat you right - just give me a call and I'll be right there whenever you feel like it",
@@ -76,36 +76,6 @@ function getFirstNode(xPath) {
 // :: util
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // features ::
 function createMessageButton() {
     // button already exists
@@ -140,9 +110,9 @@ function insertMessage() {
     let container2 = getFirstNode("//div[contains(text(),'Type a message')]");
     container2.style.visibility = "hidden";
 
-    // write into text field
+    // write one of messages into text field
     let textField = getFirstNode("//body/div[@id='app']/div[1]/div[1]/div[4]/div[1]/footer[1]/div[1]/div[1]/span[2]/div[1]/div[2]/div[1]/div[1]/div[2]");
-    textField.innerHTML = data[Math.floor(Math.random() * data.length)];
+    textField.innerHTML = messages[Math.floor(Math.random() * data.length)];
     textField.focus();
     let evt = new Event('input', {
         bubbles: true
@@ -178,12 +148,11 @@ function setComicSans() {
 
 // main ::
 console.clear();
-// setComicSans();
+setComicSans();
 
 document.onclick = () => {
-    console.log("Clicked");
     createMessageButton();
-    // changeChatName();
-    // setComicSans();
+    changeChatName();
+    setComicSans();
 };
 // :: main
