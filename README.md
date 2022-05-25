@@ -5,5 +5,3 @@ Then just choose on any script of your choice by viewing the file in GitHub and 
 
 Then the script will be installed in your browser automatically.
 Next you will just have to activate it in your userscript-manager-settings.
-
-Have fun!

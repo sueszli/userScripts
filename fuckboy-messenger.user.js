@@ -100,7 +100,9 @@ function createMessageButton() {
 function changeChatName() {
     // set all contact names to jaqueline
     const nameElem = getFirstNode("//header/div[2]/div[1]/div[1]/span[1]");
-    nameElem.innerHTML = "Jaqueline Ferguson";
+    if (nameElem) {
+        nameElem.innerHTML = "Jaqueline Ferguson";
+    }
 }
 
 function insertMessage() {
