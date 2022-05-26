@@ -31,32 +31,9 @@ let messages = [
 
 // util ::
 /**
- * Waits for an element satisfying selector to exist, then resolves promise with the element which it then returns.
+ * Returns the first node matching the xPath expression.
  */
-function elementReady(xPath) {
-    return new Promise((resolve, reject) => {
-        const el = getNodes(xPath);
-        // found immediately
-        if (el) {
-            resolve(el);
-        }
-        // wait for it to appear
-        new MutationObserver((mutationRecords, observer) => {
-            // Query for elements matching the specified path
-            if (getNodes(xPath).length === 0) {
-                resolve(getNodes(xPath));
-                observer.disconnect();
-            }
-        }).observe(document.documentElement, {
-            childList: true, subtree: true
-        });
-    });
-}
-
-/**
- *  Returns an array of nodes matching the xPath expression.
- */
-function getNodes(xpath) {
+function getFirstNode(xpath) {
     let nodes = [];
     let result = document.evaluate(xpath, document, null, XPathResult.ANY_TYPE, null);
     let node = result.iterateNext();
@@ -64,19 +41,20 @@ function getNodes(xpath) {
         nodes.push(node);
         node = result.iterateNext();
     }
-    return nodes;
-}
-
-/**
- * Returns the first node matching the xPath expression.
- */
-function getFirstNode(xPath) {
-    return getNodes(xPath)[0];
+    return nodes[0];
 }
 // :: util
 
 
 // features ::
+function changeChatName() {
+    // set all contact names to jaqueline
+    const nameElem = getFirstNode("//header/div[2]/div[1]/div[1]/span[1]");
+    if (nameElem) {
+        nameElem.innerHTML = "Jaqueline Ferguson";
+    }
+}
+
 function createMessageButton() {
     // button already exists
     const button = document.getElementById('messageButton');
@@ -97,14 +75,6 @@ function createMessageButton() {
     }
 }
 
-function changeChatName() {
-    // set all contact names to jaqueline
-    const nameElem = getFirstNode("//header/div[2]/div[1]/div[1]/span[1]");
-    if (nameElem) {
-        nameElem.innerHTML = "Jaqueline Ferguson";
-    }
-}
-
 function insertMessage() {
     let container1 = getFirstNode("//body/div[@id='app']/div[1]/div[1]/div[4]/div[1]/footer[1]/div[1]/div[1]/span[2]/div[1]/div[2]/div[1]/div[1]")
     container1.classList.add("focused");
@@ -114,7 +84,7 @@ function insertMessage() {
 
     // write one of messages into text field
     let textField = getFirstNode("//body/div[@id='app']/div[1]/div[1]/div[4]/div[1]/footer[1]/div[1]/div[1]/span[2]/div[1]/div[2]/div[1]/div[1]/div[2]");
-    textField.innerHTML = messages[Math.floor(Math.random() * data.length)];
+    textField.innerHTML = messages[Math.floor(Math.random() * messages.length)];
     textField.focus();
     let evt = new Event('input', {
         bubbles: true
@@ -153,8 +123,8 @@ console.clear();
 setComicSans();
 
 document.onclick = () => {
-    createMessageButton();
     changeChatName();
+    createMessageButton();
     setComicSans();
 };
 // :: main
