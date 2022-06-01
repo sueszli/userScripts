@@ -79,7 +79,7 @@ function insertMessage() {
     let container1 = getFirstNode("//body/div[@id='app']/div[1]/div[1]/div[4]/div[1]/footer[1]/div[1]/div[1]/span[2]/div[1]/div[2]/div[1]/div[1]")
     container1.classList.add("focused");
 
-    let container2 = getFirstNode("//div[contains(text(),'Type a message')]");
+    let container2 = getFirstNode("/html/body/div[1]/div/div/div[4]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]");
     container2.style.visibility = "hidden";
 
     // write one of messages into text field
@@ -104,16 +104,22 @@ function insertMessage() {
 }
 
 function setComicSans() {
-    let head = document.getElementsByTagName ('head')[0];
-    let s = document.createElement ('style');
-    s.setAttribute ('type', 'text/css');
+    let styles = `
+        body {
+            font-family: "Comic Sans MS",  "Comic Sans", 'Chalkboard SE', 'Comic Neue', cursive;
+        }
+    `;
 
-    if (s.styleSheet) {
-        s.styleSheet.cssText = "body { font-family: \"Comic Sans MS\"!important; } ";
+    let css = document.createElement("style");
+    css.type = 'text/css'; 
+    if (css.styleSheet) {  
+        css.styleSheet.cssText = styles; 
     } else {
-        s.appendChild (document.createTextNode ("body { font-family: \"Comic Sans MS\"!important; } "));
-    }
-    head.appendChild (s);
+        css.appendChild(document.createTextNode(styles)); 
+    }  
+
+    document.getElementsByTagName("head")[0].appendChild(css); 
+
 }
 // :: features
 
@@ -125,6 +131,5 @@ setComicSans();
 document.onclick = () => {
     changeChatName();
     createMessageButton();
-    setComicSans();
 };
 // :: main
